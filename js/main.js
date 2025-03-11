@@ -10,6 +10,7 @@ import { updateTokenProgressBar } from './ui.js';
 import { sendMessage } from './api.js';
 import { saveSettings, clearChatHistory, downloadChatHistory, loadChatHistory, loadChatHistoryFromLocalStorage } from './storage.js';
 import { initTheme, toggleTheme } from './theme.js';
+import { probeModels, initModelProbe } from './modelProbe.js';
 
 // Initialize the app
 async function init() {
@@ -18,12 +19,23 @@ async function init() {
     // Initialize theme
     initTheme();
     
+    // Initialize model probe functionality
+    initModelProbe();
+    
     // Load settings from localStorage if available
     if (localStorage.getItem('llm-chat-settings')) {
         const settings = JSON.parse(localStorage.getItem('llm-chat-settings'));
         domElements.apiEndpointInput.value = settings.apiEndpoint || domElements.apiEndpointInput.value;
         domElements.apiKeyInput.value = settings.apiKey || '';
         domElements.modelInput.value = settings.model || domElements.modelInput.value;
+        
+        // Update model dropdown to match the input if possible
+        const modelValue = domElements.modelInput.value;
+        const matchingOption = Array.from(domElements.modelDropdown.options).find(option => option.value === modelValue);
+        if (matchingOption) {
+            domElements.modelDropdown.value = modelValue;
+        }
+        
         domElements.contextWindowInput.value = settings.contextWindowSize || domElements.contextWindowInput.value;
         updateContextWindowSize();
     }
@@ -61,6 +73,11 @@ async function init() {
     domElements.apiEndpointInput.addEventListener('change', saveSettings);
     domElements.apiKeyInput.addEventListener('change', saveSettings);
     domElements.modelInput.addEventListener('change', saveSettings);
+    
+    // Add event listener for probe models button
+    if (domElements.probeModelsBtn) {
+        domElements.probeModelsBtn.addEventListener('click', probeModels);
+    }
     
     // Theme toggle event listener
     if (domElements.themeToggleBtn) {

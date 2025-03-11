@@ -6,6 +6,7 @@
 export const apiEndpointInput = document.getElementById('api-endpoint');
 export const apiKeyInput = document.getElementById('api-key');
 export const modelInput = document.getElementById('model');
+export const modelDropdown = document.getElementById('model-dropdown');
 export const contextWindowInput = document.getElementById('context-window');
 export const tokenProgressBar = document.getElementById('token-progress-bar');
 export const tokenCountDisplay = document.getElementById('token-count');
@@ -21,3 +22,9 @@ export const modalCancel = document.getElementById('modal-cancel');
 export const modalConfirm = document.getElementById('modal-confirm');
 export const themeToggleBtn = document.getElementById('theme-toggle');
 export const themeLabel = document.querySelector('.theme-label');
+
+// Model probing elements
+export const probeModelsBtn = document.getElementById('probe-models-btn');
+export const modelProbeModal = document.getElementById('model-probe-modal');
+export const modelProbeMessage = document.getElementById('model-probe-message');
+export const modelProbeClose = document.getElementById('model-probe-close');

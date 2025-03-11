@@ -22,8 +22,15 @@
                 <input type="password" id="api-key" placeholder="Enter your API key">
             </div>
             <div class="setting-group">
+                <label for="model-dropdown">Available Models:</label>
+                <select id="model-dropdown" class="model-select">
+                    <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
+                </select>
+                <button id="probe-models-btn" class="small-btn">Probe Models</button>
+            </div>
+            <div class="setting-group">
                 <label for="model">Model:</label>
-                <input type="text" id="model" value="gpt-3.5-turbo">
+                <input type="text" id="model" class="model-input" value="gpt-3.5-turbo">
             </div>
             <div class="setting-group">
                 <label for="context-window">Context Window Size (tokens):</label>
@@ -77,6 +84,17 @@
             <div class="modal-buttons">
                 <button class="modal-btn modal-btn-cancel" id="modal-cancel">Cancel</button>
                 <button class="modal-btn modal-btn-confirm" id="modal-confirm">Clear</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Model Probing Modal -->
+    <div id="model-probe-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">Probing Models</div>
+            <div class="modal-message" id="model-probe-message">Fetching available models...</div>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-cancel" id="model-probe-close">Close</button>
             </div>
         </div>
     </div>

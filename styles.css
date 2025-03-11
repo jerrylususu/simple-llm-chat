@@ -24,6 +24,13 @@
     --send-button-bg: #4CAF50;
     --send-button-hover: #45a049;
     --modal-overlay: rgba(0, 0, 0, 0.5);
+    --button-bg: #4CAF50;
+    --button-text: #fff;
+    --button-hover: #45a049;
+    --button-active: #3e8e41;
+    --hover-bg: #f7f7f7;
+    --accent-color: #4CAF50;
+    --accent-text: #fff;
 }
 
 [data-theme="dark"] {
@@ -45,6 +52,13 @@
     --send-button-bg: #4CAF50;
     --send-button-hover: #45a049;
     --modal-overlay: rgba(0, 0, 0, 0.7);
+    --button-bg: #4CAF50;
+    --button-text: #fff;
+    --button-hover: #45a049;
+    --button-active: #3e8e41;
+    --hover-bg: #333;
+    --accent-color: #4CAF50;
+    --accent-text: #fff;
 }
 
 body {
@@ -66,33 +80,40 @@ body {
 
 .settings-panel {
     width: 300px;
-    background-color: var(--container-bg);
+    height: 100%;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px var(--shadow-color);
-    height: calc(100vh - 40px);
+    background-color: var(--container-bg);
+    color: var(--text-color);
+    border-right: 1px solid var(--border-color);
     overflow-y: auto;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .setting-group {
-    margin-bottom: 15px;
+    margin-bottom: 16px;
+    width: 100%;
 }
 
 .setting-group label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
+    margin-bottom: 6px;
+    font-weight: bold;
 }
 
-.setting-group input {
+.setting-group input[type="text"],
+.setting-group input[type="password"],
+.setting-group input[type="number"] {
     width: 100%;
-    padding: 8px;
+    padding: 8px 12px;
     border: 1px solid var(--border-color);
     border-radius: 4px;
     background-color: var(--input-bg);
     color: var(--text-color);
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
 }
 
 .theme-toggle-container {
@@ -582,4 +603,110 @@ h2 {
     10% { opacity: 1; transform: translateY(0); }
     90% { opacity: 1; transform: translateY(0); }
     100% { opacity: 0; transform: translateY(20px); }
+}
+
+/* Small button for probe models */
+.small-btn {
+    padding: 4px 8px;
+    margin-left: 8px;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background-color 0.2s;
+}
+
+.small-btn:hover {
+    background-color: var(--button-hover);
+}
+
+.small-btn:active {
+    background-color: var(--button-active);
+}
+
+/* Model list container */
+.model-list-container {
+    margin-top: 8px;
+    margin-bottom: 16px;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: var(--input-bg);
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.model-list-header {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.model-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.model-item {
+    padding: 6px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.model-item:hover {
+    background-color: var(--hover-bg);
+}
+
+.model-item.selected {
+    background-color: var(--accent-color);
+    color: var(--accent-text);
+}
+
+/* Model select dropdown */
+.model-select {
+    width: calc(100% - 90px);
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+
+.model-select:focus {
+    border-color: var(--accent-color);
+}
+
+.model-select option {
+    background-color: var(--input-bg);
+    color: var(--text-color);
+}
+
+/* Model input field */
+.model-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+
+.model-input:focus {
+    border-color: var(--accent-color);
+}
+
+.model-input-container {
+    display: flex;
+    flex: 1;
+    position: relative;
 }
