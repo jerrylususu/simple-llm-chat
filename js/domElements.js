@@ -19,3 +19,5 @@ export const loadHistoryInput = document.getElementById('load-history-input');
 export const confirmationModal = document.getElementById('confirmation-modal');
 export const modalCancel = document.getElementById('modal-cancel');
 export const modalConfirm = document.getElementById('modal-confirm');
+export const themeToggleBtn = document.getElementById('theme-toggle');
+export const themeLabel = document.querySelector('.theme-label');

@@ -9,10 +9,14 @@ import { initTokenizer, updateInputTokenCount } from './tokenizer.js';
 import { updateTokenProgressBar } from './ui.js';
 import { sendMessage } from './api.js';
 import { saveSettings, clearChatHistory, downloadChatHistory, loadChatHistory, loadChatHistoryFromLocalStorage } from './storage.js';
+import { initTheme, toggleTheme } from './theme.js';
 
 // Initialize the app
 async function init() {
     await initTokenizer();
+    
+    // Initialize theme
+    initTheme();
     
     // Load settings from localStorage if available
     if (localStorage.getItem('llm-chat-settings')) {
@@ -57,6 +61,11 @@ async function init() {
     domElements.apiEndpointInput.addEventListener('change', saveSettings);
     domElements.apiKeyInput.addEventListener('change', saveSettings);
     domElements.modelInput.addEventListener('change', saveSettings);
+    
+    // Theme toggle event listener
+    if (domElements.themeToggleBtn) {
+        domElements.themeToggleBtn.addEventListener('click', toggleTheme);
+    }
     
     // History management event listeners
     if (domElements.clearHistoryBtn) {

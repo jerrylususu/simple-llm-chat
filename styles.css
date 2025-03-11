@@ -4,11 +4,55 @@
     padding: 0;
 }
 
+:root {
+    /* Light theme (default) */
+    --bg-color: #f8f9fa;
+    --container-bg: #fff;
+    --text-color: #333;
+    --border-color: #ddd;
+    --input-bg: #fff;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --user-message-bg: #e3f2fd;
+    --assistant-message-bg: #f1f1f1;
+    --code-bg: #f6f8fa;
+    --code-inline-bg: rgba(175, 184, 193, 0.2);
+    --blockquote-color: #57606a;
+    --blockquote-border: #d0d7de;
+    --token-info-color: #666;
+    --progress-bar-bg: #e9ecef;
+    --progress-bar-fill: #4CAF50;
+    --send-button-bg: #4CAF50;
+    --send-button-hover: #45a049;
+    --modal-overlay: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] {
+    --bg-color: #1e1e1e;
+    --container-bg: #252526;
+    --text-color: #e0e0e0;
+    --border-color: #444;
+    --input-bg: #333;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --user-message-bg: #2b5278;
+    --assistant-message-bg: #3a3a3a;
+    --code-bg: #1e1e1e;
+    --code-inline-bg: rgba(100, 100, 100, 0.4);
+    --blockquote-color: #a0a0a0;
+    --blockquote-border: #555;
+    --token-info-color: #aaa;
+    --progress-bar-bg: #444;
+    --progress-bar-fill: #4CAF50;
+    --send-button-bg: #4CAF50;
+    --send-button-hover: #45a049;
+    --modal-overlay: rgba(0, 0, 0, 0.7);
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
-    color: #333;
-    background-color: #f8f9fa;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
@@ -22,12 +66,13 @@ body {
 
 .settings-panel {
     width: 300px;
-    background-color: #fff;
+    background-color: var(--container-bg);
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px var(--shadow-color);
     height: calc(100vh - 40px);
     overflow-y: auto;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .setting-group {
@@ -43,8 +88,56 @@ body {
 .setting-group input {
     width: 100%;
     padding: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.theme-toggle-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.theme-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    background-color: var(--container-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: var(--text-color);
+}
+
+.theme-toggle-btn:hover {
+    background-color: var(--code-bg);
+}
+
+.theme-icon {
+    margin-right: 5px;
+}
+
+.theme-label {
+    margin-left: 5px;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+[data-theme="light"] .dark-icon {
+    display: none;
+}
+
+[data-theme="dark"] .light-icon {
+    display: none;
+}
+
+[data-theme="auto"] .light-icon,
+[data-theme="auto"] .dark-icon {
+    opacity: 0.5;
 }
 
 .token-progress-container {
@@ -53,27 +146,29 @@ body {
 
 .progress-bar-container {
     height: 10px;
-    background-color: #e9ecef;
+    background-color: var(--progress-bar-bg);
     border-radius: 5px;
     margin: 10px 0;
     overflow: hidden;
+    transition: background-color 0.3s ease;
 }
 
 .progress-bar {
     height: 100%;
-    background-color: #4CAF50;
+    background-color: var(--progress-bar-fill);
     width: 0%;
-    transition: width 0.3s ease;
+    transition: width 0.3s ease, background-color 0.3s ease;
 }
 
 .chat-container {
     flex: 1;
     display: flex;
     flex-direction: column;
-    background-color: #fff;
+    background-color: var(--container-bg);
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px var(--shadow-color);
     overflow: hidden;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .chat-messages {
@@ -89,16 +184,18 @@ body {
 
 .user-message {
     margin-left: auto;
-    background-color: #e3f2fd;
+    background-color: var(--user-message-bg);
     border-radius: 18px 18px 0 18px;
     padding: 12px 16px;
+    transition: background-color 0.3s ease;
 }
 
 .assistant-message {
     margin-right: auto;
-    background-color: #f1f1f1;
+    background-color: var(--assistant-message-bg);
     border-radius: 18px 18px 18px 0;
     padding: 12px 16px;
+    transition: background-color 0.3s ease;
 }
 
 .message-content {
@@ -123,10 +220,14 @@ body {
 
 .message-content h2 {
     font-size: 1.3em;
+    color: var(--text-color);
+    transition: color 0.3s ease;
 }
 
 .message-content h3 {
     font-size: 1.1em;
+    color: var(--text-color);
+    transition: color 0.3s ease;
 }
 
 .message-content p {
@@ -146,7 +247,7 @@ body {
 }
 
 .message-content pre {
-    background-color: #f6f8fa;
+    background-color: var(--code-bg);
     border-radius: 6px;
     padding: 16px;
     overflow: auto;
@@ -154,14 +255,16 @@ body {
     font-size: 85%;
     line-height: 1.45;
     margin-bottom: 0.8em;
+    transition: background-color 0.3s ease;
 }
 
 .message-content code {
-    background-color: rgba(175, 184, 193, 0.2);
+    background-color: var(--code-inline-bg);
     border-radius: 6px;
     font-family: monospace;
     font-size: 85%;
     padding: 0.2em 0.4em;
+    transition: background-color 0.3s ease;
 }
 
 .message-content pre code {
@@ -170,10 +273,11 @@ body {
 }
 
 .message-content blockquote {
-    border-left: 3px solid #d0d7de;
-    color: #57606a;
+    border-left: 3px solid var(--blockquote-border);
+    color: var(--blockquote-color);
     margin: 0 0 0.8em;
     padding: 0 1em;
+    transition: border-color 0.3s ease, color 0.3s ease;
 }
 
 .message-content table {
@@ -186,17 +290,20 @@ body {
 
 .message-content table th,
 .message-content table td {
-    border: 1px solid #d0d7de;
+    border: 1px solid var(--border-color);
     padding: 6px 13px;
+    transition: border-color 0.3s ease;
 }
 
 .message-content table tr {
-    background-color: #fff;
-    border-top: 1px solid #d0d7de;
+    background-color: var(--container-bg);
+    border-top: 1px solid var(--border-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .message-content table tr:nth-child(2n) {
-    background-color: #f6f8fa;
+    background-color: var(--code-bg);
+    transition: background-color 0.3s ease;
 }
 
 .message-content a {
@@ -215,32 +322,34 @@ body {
 
 .message-tokens {
     font-size: 0.8em;
-    color: #666;
+    color: var(--token-info-color);
     margin-top: 5px;
     text-align: right;
 }
 
 .reasoning-header {
     font-weight: 600;
-    color: #6c757d;
+    color: var(--blockquote-color);
     margin-top: 10px;
     margin-bottom: 5px;
     font-size: 0.9em;
+    transition: color 0.3s ease;
 }
 
 .reasoning-content {
-    background-color: #f8f9fa;
-    border-left: 3px solid #6c757d;
+    background-color: var(--code-bg);
+    border-left: 3px solid var(--blockquote-border);
     padding: 10px;
     margin: 0 0 10px;
     font-size: 0.9em;
-    color: #495057;
+    color: var(--text-color);
     white-space: pre-wrap;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .input-container {
     padding: 15px;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
 }
@@ -249,22 +358,25 @@ body {
     width: 100%;
     min-height: 60px;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     resize: vertical;
     margin-bottom: 5px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .token-info {
     font-size: 0.8em;
-    color: #666;
+    color: var(--token-info-color);
     margin-bottom: 5px;
 }
 
 #send-button {
     align-self: flex-end;
     padding: 8px 16px;
-    background-color: #4CAF50;
+    background-color: var(--send-button-bg);
     color: white;
     border: none;
     border-radius: 4px;
@@ -273,7 +385,7 @@ body {
 }
 
 #send-button:hover {
-    background-color: #45a049;
+    background-color: var(--send-button-hover);
 }
 
 #send-button:disabled {
@@ -283,7 +395,8 @@ body {
 
 h2 {
     margin-bottom: 20px;
-    color: #333;
+    color: var(--text-color);
+    transition: color 0.3s ease;
 }
 
 /* Loading indicator */
@@ -326,14 +439,15 @@ h2 {
 /* History management */
 .history-management {
     margin-top: 30px;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid var(--border-color);
     padding-top: 15px;
 }
 
 .history-management h3 {
     margin-bottom: 15px;
     font-size: 1.1em;
-    color: #333;
+    color: var(--text-color);
+    transition: color 0.3s ease;
 }
 
 .history-buttons {
@@ -349,12 +463,12 @@ h2 {
     cursor: pointer;
     font-size: 0.9em;
     text-align: center;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    color: white;
 }
 
 #clear-history-btn {
     background-color: #dc3545;
-    color: white;
 }
 
 #clear-history-btn:hover {
@@ -363,7 +477,6 @@ h2 {
 
 #download-history-btn {
     background-color: #0d6efd;
-    color: white;
 }
 
 #download-history-btn:hover {
@@ -388,29 +501,35 @@ h2 {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--modal-overlay);
     z-index: 1000;
     align-items: center;
     justify-content: center;
 }
 
 .modal-content {
-    background-color: white;
+    background-color: var(--container-bg);
     padding: 20px;
     border-radius: 8px;
     max-width: 400px;
     width: 100%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px var(--shadow-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .modal-title {
     font-size: 1.2em;
     font-weight: 600;
     margin-bottom: 15px;
+    color: var(--text-color);
+    transition: color 0.3s ease;
 }
 
 .modal-message {
     margin-bottom: 20px;
+    color: var(--text-color);
+    transition: color 0.3s ease;
 }
 
 .modal-buttons {
@@ -424,16 +543,24 @@ h2 {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    color: white;
+    transition: background-color 0.3s ease;
 }
 
 .modal-btn-cancel {
     background-color: #6c757d;
-    color: white;
+}
+
+.modal-btn-cancel:hover {
+    background-color: #5a6268;
 }
 
 .modal-btn-confirm {
     background-color: #dc3545;
-    color: white;
+}
+
+.modal-btn-confirm:hover {
+    background-color: #c82333;
 }
 
 /* Notification for localStorage limit */
