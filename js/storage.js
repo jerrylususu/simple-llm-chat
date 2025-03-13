@@ -124,13 +124,23 @@ export function loadChatHistory(event) {
             let newTotalTokens = 0;
             
             for (const msg of messages) {
-                const tokenCount = countTokens(msg.content);
+                // If the message has actual token usage data, use it
+                let tokenCount;
+                if (msg.token_usage && msg.token_usage.completion_tokens && msg.role === 'assistant') {
+                    tokenCount = msg.token_usage.completion_tokens;
+                } else if (msg.token_usage && msg.token_usage.prompt_tokens && msg.role === 'user') {
+                    tokenCount = msg.token_usage.prompt_tokens;
+                } else {
+                    // Fall back to estimation
+                    tokenCount = countTokens(msg.content);
+                }
+                
                 newTotalTokens += tokenCount;
                 addMessage(msg.role, msg.content, tokenCount, msg.reasoning_content || null);
             }
             
-            // Update token count
-            setTotalTokens(newTotalTokens);
+            // Update token count - prefer the stored totalTokens if available
+            setTotalTokens(chatHistory.totalTokens || newTotalTokens);
             updateTokenProgressBar();
             
             // Reset file input
@@ -218,12 +228,22 @@ export function loadChatHistoryFromLocalStorage() {
         let newTotalTokens = 0;
         
         for (const msg of messages) {
-            const tokenCount = countTokens(msg.content);
+            // If the message has actual token usage data, use it
+            let tokenCount;
+            if (msg.token_usage && msg.token_usage.completion_tokens && msg.role === 'assistant') {
+                tokenCount = msg.token_usage.completion_tokens;
+            } else if (msg.token_usage && msg.token_usage.prompt_tokens && msg.role === 'user') {
+                tokenCount = msg.token_usage.prompt_tokens;
+            } else {
+                // Fall back to estimation
+                tokenCount = countTokens(msg.content);
+            }
+            
             newTotalTokens += tokenCount;
             addMessage(msg.role, msg.content, tokenCount, msg.reasoning_content || null);
         }
         
-        // Update token count
+        // Update token count - prefer the stored totalTokens if available
         setTotalTokens(chatHistory.totalTokens || newTotalTokens);
         updateTokenProgressBar();
         

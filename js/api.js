@@ -4,8 +4,8 @@
  */
 
 import { apiEndpointInput, apiKeyInput, modelInput, userInput, sendButton, chatMessages } from './domElements.js';
-import { messages, totalTokens, userInputSaveTimeout, setUserInputSaveTimeout, updateTotalTokens, addMessageToArray } from './state.js';
-import { countTokens, updateInputTokenCount } from './tokenizer.js';
+import { messages, totalTokens, userInputSaveTimeout, setUserInputSaveTimeout, updateTotalTokens, addMessageToArray, setTotalTokens } from './state.js';
+import { countTokens, updateInputTokenCount, extractTokenUsage } from './tokenizer.js';
 import { addMessage, createLoadingIndicator, updateTokenProgressBar } from './ui.js';
 import { saveChatHistoryToLocalStorage } from './storage.js';
 
@@ -119,6 +119,7 @@ export async function sendMessage() {
         let assistantMessage = '';
         let reasoningContent = '';
         let assistantTokenCount = 0;
+        let actualTokenUsage = null;
         
         // Process the stream
         let buffer = '';
@@ -144,6 +145,15 @@ export async function sendMessage() {
                         const parsed = JSON.parse(data);
                         const delta = parsed.choices[0].delta;
                         
+                        // Check for token usage data
+                        const tokenUsage = extractTokenUsage(parsed);
+                        if (tokenUsage) {
+                            actualTokenUsage = tokenUsage;
+                            // Update token count display with actual usage
+                            assistantTokenCount = tokenUsage.completionTokens;
+                            tokenDiv.textContent = `${assistantTokenCount} tokens`;
+                        }
+                        
                         // Handle content
                         if (delta.content) {
                             assistantMessage += delta.content;
@@ -153,8 +163,12 @@ export async function sendMessage() {
                             } else {
                                 contentDiv.textContent = assistantMessage;
                             }
-                            assistantTokenCount = countTokens(assistantMessage);
-                            tokenDiv.textContent = `${assistantTokenCount} tokens`;
+                            
+                            // Only estimate tokens if we don't have actual usage data
+                            if (!actualTokenUsage) {
+                                assistantTokenCount = countTokens(assistantMessage);
+                                tokenDiv.textContent = `${assistantTokenCount} tokens`;
+                            }
                         }
                         
                         // Handle reasoning content
@@ -186,6 +200,15 @@ export async function sendMessage() {
                     const parsed = JSON.parse(data);
                     const delta = parsed.choices[0].delta;
                     
+                    // Check for token usage data in the final chunk
+                    const tokenUsage = extractTokenUsage(parsed);
+                    if (tokenUsage) {
+                        actualTokenUsage = tokenUsage;
+                        // Update token count display with actual usage
+                        assistantTokenCount = tokenUsage.completionTokens;
+                        tokenDiv.textContent = `${assistantTokenCount} tokens`;
+                    }
+                    
                     // Handle content
                     if (delta.content) {
                         assistantMessage += delta.content;
@@ -195,8 +218,12 @@ export async function sendMessage() {
                         } else {
                             contentDiv.textContent = assistantMessage;
                         }
-                        assistantTokenCount = countTokens(assistantMessage);
-                        tokenDiv.textContent = `${assistantTokenCount} tokens`;
+                        
+                        // Only estimate tokens if we don't have actual usage data
+                        if (!actualTokenUsage) {
+                            assistantTokenCount = countTokens(assistantMessage);
+                            tokenDiv.textContent = `${assistantTokenCount} tokens`;
+                        }
                     }
                     
                     // Handle reasoning content
@@ -245,10 +272,25 @@ export async function sendMessage() {
             assistantMessageObj.reasoning_content = reasoningContent;
         }
         
+        // Add token usage if available
+        if (actualTokenUsage) {
+            assistantMessageObj.token_usage = {
+                prompt_tokens: actualTokenUsage.promptTokens,
+                completion_tokens: actualTokenUsage.completionTokens,
+                total_tokens: actualTokenUsage.totalTokens
+            };
+        }
+        
         addMessageToArray(assistantMessageObj);
         
-        // Update total tokens
-        updateTotalTokens(assistantTokenCount);
+        // Update total tokens - use actual total if available, otherwise use estimated
+        if (actualTokenUsage) {
+            // If we have actual usage, we need to reset the total and add the actual total
+            // This is because the user tokens were already added with an estimate
+            setTotalTokens(actualTokenUsage.totalTokens);
+        } else {
+            updateTotalTokens(assistantTokenCount);
+        }
         updateTokenProgressBar();
         
         // Save chat history to localStorage

@@ -32,3 +32,16 @@ export function updateInputTokenCount() {
     const tokens = countTokens(text);
     inputTokenCount.textContent = `${tokens} tokens`;
 }
+
+// Extract token usage from API response if available
+export function extractTokenUsage(data) {
+    // Check if the data contains usage information
+    if (data && data.usage) {
+        return {
+            promptTokens: data.usage.prompt_tokens || 0,
+            completionTokens: data.usage.completion_tokens || 0,
+            totalTokens: data.usage.total_tokens || 0
+        };
+    }
+    return null;
+}
