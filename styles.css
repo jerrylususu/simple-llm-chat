@@ -524,33 +524,31 @@ h2 {
     height: 100%;
     background-color: var(--modal-overlay);
     z-index: 1000;
-    align-items: center;
     justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
     background-color: var(--container-bg);
-    padding: 20px;
     border-radius: 8px;
-    max-width: 400px;
-    width: 100%;
     box-shadow: 0 4px 8px var(--shadow-color);
-    color: var(--text-color);
-    transition: background-color 0.3s ease, color 0.3s ease;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .modal-title {
-    font-size: 1.2em;
-    font-weight: 600;
+    font-size: 1.2rem;
+    font-weight: bold;
     margin-bottom: 15px;
-    color: var(--text-color);
-    transition: color 0.3s ease;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .modal-message {
     margin-bottom: 20px;
-    color: var(--text-color);
-    transition: color 0.3s ease;
 }
 
 .modal-buttons {
@@ -564,24 +562,37 @@ h2 {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    color: white;
-    transition: background-color 0.3s ease;
+    font-size: 0.9rem;
 }
 
 .modal-btn-cancel {
-    background-color: #6c757d;
+    background-color: #f1f1f1;
+    color: #333;
 }
 
 .modal-btn-cancel:hover {
-    background-color: #5a6268;
+    background-color: #e0e0e0;
 }
 
 .modal-btn-confirm {
-    background-color: #dc3545;
+    background-color: var(--button-bg);
+    color: var(--button-text);
 }
 
 .modal-btn-confirm:hover {
-    background-color: #c82333;
+    background-color: var(--button-hover);
+}
+
+/* Extra Headers Modal */
+.extra-headers-modal-content {
+    max-width: 600px;
+}
+
+.monaco-editor-container {
+    height: 300px;
+    border: 1px solid var(--border-color);
+    margin-top: 10px;
+    border-radius: 4px;
 }
 
 /* Notification for localStorage limit */

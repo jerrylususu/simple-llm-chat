@@ -8,6 +8,7 @@ import { messages, totalTokens, userInputSaveTimeout, setUserInputSaveTimeout, u
 import { countTokens, updateInputTokenCount, extractTokenUsage } from './tokenizer.js';
 import { addMessage, createLoadingIndicator, updateTokenProgressBar } from './ui.js';
 import { saveChatHistoryToLocalStorage } from './storage.js';
+import { getExtraHeaders } from './headers.js';
 
 // Send a message to the API
 export async function sendMessage() {
@@ -65,13 +66,17 @@ export async function sendMessage() {
             messages: apiMessages,
             stream: true
         };
+
+        // Get extra headers
+        const extraHeaders = getExtraHeaders();
         
         // Make API request
         const response = await fetch(apiEndpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
+                'Authorization': `Bearer ${apiKey}`,
+                ...extraHeaders
             },
             body: JSON.stringify(requestBody)
         });

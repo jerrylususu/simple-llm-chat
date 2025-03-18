@@ -11,6 +11,7 @@ import { sendMessage } from './api.js';
 import { saveSettings, clearChatHistory, downloadChatHistory, loadChatHistory, loadChatHistoryFromLocalStorage } from './storage.js';
 import { initTheme, toggleTheme } from './theme.js';
 import { probeModels, initModelProbe } from './modelProbe.js';
+import { initHeaders } from './headers.js';
 
 // Initialize the app
 async function init() {
@@ -21,6 +22,9 @@ async function init() {
     
     // Initialize model probe functionality
     initModelProbe();
+
+    // Initialize headers functionality
+    initHeaders();
     
     // Load settings from localStorage if available
     if (localStorage.getItem('llm-chat-settings')) {

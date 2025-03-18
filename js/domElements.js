@@ -23,6 +23,13 @@ export const modalConfirm = document.getElementById('modal-confirm');
 export const themeToggleBtn = document.getElementById('theme-toggle');
 export const themeLabel = document.querySelector('.theme-label');
 
+// Extra headers elements
+export const extraHeadersBtn = document.getElementById('extra-headers-btn');
+export const extraHeadersModal = document.getElementById('extra-headers-modal');
+export const headersEditorContainer = document.getElementById('headers-editor');
+export const headersModalCancel = document.getElementById('headers-modal-cancel');
+export const headersModalSave = document.getElementById('headers-modal-save');
+
 // Model probing elements
 export const probeModelsBtn = document.getElementById('probe-models-btn');
 export const modelProbeModal = document.getElementById('model-probe-modal');

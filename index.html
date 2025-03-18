@@ -8,6 +8,8 @@
     <!-- Removed tiktoken library reference -->
     <!-- Include marked.js for markdown rendering -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Include Monaco Editor -->
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/loader.js"></script>
 </head>
 <body>
     <div class="container">
@@ -20,6 +22,10 @@
             <div class="setting-group">
                 <label for="api-key">API Key:</label>
                 <input type="password" id="api-key" placeholder="Enter your API key">
+            </div>
+            <div class="setting-group">
+                <label for="extra-headers-btn">Extra Headers:</label>
+                <button id="extra-headers-btn" class="small-btn">Configure Headers</button>
             </div>
             <div class="setting-group">
                 <label for="model-dropdown">Available Models:</label>
@@ -95,6 +101,22 @@
             <div class="modal-message" id="model-probe-message">Fetching available models...</div>
             <div class="modal-buttons">
                 <button class="modal-btn modal-btn-cancel" id="model-probe-close">Close</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Extra Headers Modal -->
+    <div id="extra-headers-modal" class="modal">
+        <div class="modal-content extra-headers-modal-content">
+            <div class="modal-title">Configure Extra Headers</div>
+            <div class="modal-message">
+                <p>Enter your headers as a JSON object. Both keys and values must be strings.</p>
+                <p>Example: { "my-header": "my-value" }</p>
+                <div id="headers-editor" class="monaco-editor-container"></div>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-cancel" id="headers-modal-cancel">Cancel</button>
+                <button class="modal-btn modal-btn-confirm" id="headers-modal-save">Save</button>
             </div>
         </div>
     </div>
