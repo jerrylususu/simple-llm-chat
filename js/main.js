@@ -12,6 +12,7 @@ import { saveSettings, clearChatHistory, downloadChatHistory, loadChatHistory, l
 import { initTheme, toggleTheme } from './theme.js';
 import { probeModels, initModelProbe } from './modelProbe.js';
 import { initHeaders } from './headers.js';
+import './chatEditor.js';
 
 // Initialize the app
 async function init() {

@@ -64,6 +64,7 @@
                 <div class="history-buttons">
                     <button id="clear-history-btn" class="history-btn">Clear Chat</button>
                     <button id="download-history-btn" class="history-btn">Download Chat</button>
+                    <button id="edit-chat-btn" class="history-btn">Edit Chat</button>
                     <label for="load-history-input" class="history-btn load-btn">Load Chat</label>
                     <input type="file" id="load-history-input" accept=".json" style="display: none;">
                 </div>
@@ -118,6 +119,21 @@
             <div class="modal-buttons">
                 <button class="modal-btn modal-btn-cancel" id="headers-modal-cancel">Cancel</button>
                 <button class="modal-btn modal-btn-confirm" id="headers-modal-save">Save</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Chat Modal -->
+    <div id="edit-chat-modal" class="modal">
+        <div class="modal-content extra-headers-modal-content">
+            <div class="modal-title">Edit Chat History</div>
+            <div class="modal-message">
+                <p>Edit the chat history as a JSON array. Each message should have 'role' and 'content' properties.</p>
+                <div id="chat-editor" class="monaco-editor-container"></div>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-cancel" id="edit-chat-modal-cancel">Cancel</button>
+                <button class="modal-btn modal-btn-confirm" id="edit-chat-modal-save">Save</button>
             </div>
         </div>
     </div>

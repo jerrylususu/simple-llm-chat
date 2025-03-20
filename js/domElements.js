@@ -30,6 +30,13 @@ export const headersEditorContainer = document.getElementById('headers-editor');
 export const headersModalCancel = document.getElementById('headers-modal-cancel');
 export const headersModalSave = document.getElementById('headers-modal-save');
 
+// Chat editor elements
+export const editChatBtn = document.getElementById('edit-chat-btn');
+export const editChatModal = document.getElementById('edit-chat-modal');
+export const chatEditorContainer = document.getElementById('chat-editor');
+export const editChatModalCancel = document.getElementById('edit-chat-modal-cancel');
+export const editChatModalSave = document.getElementById('edit-chat-modal-save');
+
 // Model probing elements
 export const probeModelsBtn = document.getElementById('probe-models-btn');
 export const modelProbeModal = document.getElementById('model-probe-modal');
