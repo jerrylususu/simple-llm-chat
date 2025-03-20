@@ -9,8 +9,7 @@ import { totalTokens, contextWindowSize } from './state.js';
 // Initialize tokenizer
 export async function initTokenizer() {
     try {
-        // Use a simpler approach for token counting
-        // This is an approximation - GPT models use about 4 characters per token on average
+        // gpt-tokenizer is already loaded from CDN, available as GPTTokenizer_cl100k_base
         updateInputTokenCount();
     } catch (error) {
         console.error('Failed to initialize tokenizer:', error);
@@ -21,9 +20,16 @@ export async function initTokenizer() {
 // Count tokens in a string
 export function countTokens(text) {
     if (!text) return 0;
-    // Simple approximation: ~4 characters per token for English text
-    // This is not perfect but works as a reasonable estimate
-    return Math.ceil(text.length / 4);
+    
+    try {
+        // Try using gpt-tokenizer (cl100k)
+        return GPTTokenizer_cl100k_base.encode(text).length;
+    } catch (error) {
+        // If gpt-tokenizer fails, fall back to length-based count with warning
+        console.error('Failed to use gpt-tokenizer, falling back to length-based token count:', error);
+        // Simple approximation: ~4 characters per token for English text
+        return Math.ceil(text.length / 4);
+    }
 }
 
 // Update token count for user input
@@ -43,5 +49,21 @@ export function extractTokenUsage(data) {
             totalTokens: data.usage.total_tokens || 0
         };
     }
+    
+    // If no usage info, use gpt-tokenizer to count tokens
+    if (data && data.choices && data.choices[0]) {
+        const promptText = JSON.stringify(data.messages || []); // Assuming messages are stored in data
+        const completionText = data.choices[0].message.content || '';
+        
+        const promptTokens = countTokens(promptText);
+        const completionTokens = countTokens(completionText);
+        
+        return {
+            promptTokens,
+            completionTokens,
+            totalTokens: promptTokens + completionTokens
+        };
+    }
+    
     return null;
 }
