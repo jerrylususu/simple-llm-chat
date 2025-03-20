@@ -169,11 +169,17 @@ export async function sendMessage() {
                                 contentDiv.textContent = assistantMessage;
                             }
                             
-                            // Only estimate tokens if we don't have actual usage data
-                            if (!actualTokenUsage) {
+                            // Always update token count and progress bar with best available information
+                            if (actualTokenUsage) {
+                                assistantTokenCount = actualTokenUsage.completionTokens;
+                                setTotalTokens(actualTokenUsage.totalTokens);
+                            } else {
                                 assistantTokenCount = countTokens(assistantMessage);
-                                tokenDiv.textContent = `${assistantTokenCount} tokens`;
+                                // Since we already added user tokens to total, just update with new assistant tokens
+                                setTotalTokens(totalTokens - assistantTokenCount + countTokens(assistantMessage));
                             }
+                            tokenDiv.textContent = `${assistantTokenCount} tokens`;
+                            updateTokenProgressBar();
                         }
                         
                         // Handle reasoning content
@@ -290,11 +296,13 @@ export async function sendMessage() {
         
         // Update total tokens - use actual total if available, otherwise use estimated
         if (actualTokenUsage) {
-            // If we have actual usage, we need to reset the total and add the actual total
-            // This is because the user tokens were already added with an estimate
             setTotalTokens(actualTokenUsage.totalTokens);
         } else {
-            updateTotalTokens(assistantTokenCount);
+            // Since we're already updating the total tokens during streaming,
+            // we don't need to update it again here unless it was empty
+            if (assistantMessage.length === 0) {
+                updateTotalTokens(assistantTokenCount);
+            }
         }
         updateTokenProgressBar();
         
