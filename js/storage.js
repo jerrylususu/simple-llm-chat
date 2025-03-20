@@ -67,12 +67,16 @@ export function downloadChatHistory() {
     const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const seconds = String(now.getSeconds()).padStart(2, '0');
-    const filename = `chat-${year}${month}${day}-${hours}${minutes}${seconds}.json`;
+    const defaultFilename = `chat-${year}${month}${day}-${hours}${minutes}${seconds}.json`;
+    
+    // Prompt user for filename with default value
+    const userFilename = prompt('Enter filename for download:', defaultFilename);
+    if (!userFilename) return; // User cancelled
     
     // Create download link and trigger download
     const a = document.createElement('a');
     a.href = url;
-    a.download = filename;
+    a.download = userFilename;
     document.body.appendChild(a);
     a.click();
     
